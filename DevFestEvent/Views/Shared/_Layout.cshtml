@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <title>@ViewBag.Title - DevFestMN Sessions</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Styles.Render(Url.Action("CSS", "Spreadsheet"))
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Index","Home")" class="navbar-brand"><img src="@Url.Content("~/img/logo.png")" style="height: 30px" /> DevFest Schedule</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("| My Sessions", "Index", "MySessions",null, new { @class = "" })</li>
+                    }
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Sponsors", "Sponsors", "Home")</li>
+                    <!--<li><a href="http://devfest.mn">Full Site</a></li>-->
+                </ul>
+                <ul>
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+
+        <div class="row">
+            <h4>Google Devfest Twin Cities is proudly sponsored by</h4>
+            <div class="sponsors">
+                <a href="http://developers.google.com" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://google.com']);">
+                    <img class="aligncenter" alt="Logo_Google_2013_Official.svg" src="http://devfest.mn/wp-content/uploads/2014/01/Logo_Google_2013_Official.svg_.png">
+                </a>
+                <a href="http://leadpages.com" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://leadpages.com']);"><img alt="LeadPages" src="http://devfest.mn/wp-content/uploads/2014/01/leadpages-logo.png"></a>
+                <a href="http://code42.com" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://code42.com']);">
+                <img alt="Code 42" src="http://devfest.mn/wp-content/uploads/2014/01/code421.png"></a>
+                <a href="http://www.stthomas.edu/Business/schulzeschool/default.html" onclick="javascript: _gaq.push(['_trackEvent', 'outbound-article', 'http://www.stthomas.edu/Business/schulzeschool/default.html']);"><img src="http://i.imgur.com/j8Wa6qa.png"></a>
+                <a href="http://mentormate.com" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://mentormate.com']);"><img alt="MentorMate" src="http://devfest.mn/wp-content/uploads/2014/01/mentormate-logo-standalone-black-tagline.png"></a>
+                <a href="http://www.agosto.com" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.agosto.com']);"><img class="alignnone size-medium wp-image-184" alt="Agosto_Logo_Large" src="http://devfest.mn/wp-content/uploads/2014/01/Agosto_Logo_Large-300x148.png" ></a>
+                <a href="http://livefront.com" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://livefront.com']);"><img class="alignnone size-full wp-image-196" alt="logo-livefront" src="http://i.imgur.com/dEAmZvz.png"></a>
+            </div>
+</div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Google DevFest Twin Cities - Site by <a href="https://google.com/+LloydCledwyn">Lloyd Cledwyn</a>
+            <br />
+            Fully tested for <a href="http://www.google.com/chrome‎">Google Chrome</a>.  Other browsers... not so much.
+            </p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/site.js")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-46026381-3', 'devfest.mn');
+        ga('send', 'pageview');
+
+    </script>
+    <script type="text/javascript">
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
+</body>
+</html>

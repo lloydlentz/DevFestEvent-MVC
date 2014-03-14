@@ -1,0 +1,66 @@
+﻿@model DevFestEvent.ViewModels.SessionModalView
+@{
+    ViewBag.Title = @Model.Session.Title;
+}
+
+<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="/" type="button" class="close cancel" data-dismiss="modal" aria-hidden="true" >&times;</a>
+                <div style="float:right; padding-right: 30px;">
+                    <!-- Place this tag where you want the +1 button to render. -->
+                    <div class="g-plusone" data-size="tall" data-annotation="inline" data-width="300"></div>
+
+                    <!-- Place this tag after the last +1 button tag. -->
+                    <script type="text/javascript">
+                        (function () {
+                            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                            po.src = 'https://apis.google.com/js/platform.js';
+                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                        })();
+                    </script>
+                </div>
+                <h4 class="modal-title">@Model.Session.FormattedStartTime - @Model.Session.Room</h4>
+            </div>
+            <div class="modal-body">
+
+                <h3>@Html.Raw(Model.Session.Title)</h3>
+                <em>@Html.Raw(Model.Session.SpeakerDescription)</em>
+
+                <div class="eventpopover" id="@String.Concat("lessondetails", Model.Session.ID)">
+                    @Html.Raw(Model.Session.Description)
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                @if (Model.AppUser != null)
+                {
+                    if (Model.AppUser.Admin)
+                    {
+                        <a href="@Url.Action("Edit","Session",new{id=Model.Session.IID})" type="button" id="btnPopupEdit" class="btn btn-default cancel">Edit</a>
+                    }
+                }
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (Model.alreadyAdded)
+                    {
+                        <button type="button" id="btnPopupSave" data-dismiss="modal" class="btn btn-warning" onclick="delSession(@Model.Session.IID);">Remove from My Schedule</button>
+                    }
+                    else
+                    {
+                        <button type="button" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" onclick="addSession(@Model.Session.IID);">Add to My Schedule</button>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("provider", "Google")
+                        <button type="submit" class="btn btn-info" name="submit" value="Log in with Google" title="Log in using your google account">Log in with your Google Account and you can save your own schedule.</button>
+                    }
+                }
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->

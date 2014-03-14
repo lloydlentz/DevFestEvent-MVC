@@ -1,0 +1,27 @@
+﻿@using Google.GData.Client
+@using Google.GData.Extensions
+@using Google.GData.Spreadsheets
+@model ICollection<DevFestEvent.Models.Session>
+
+@{
+    ViewBag.Title = "Index";
+    string hour = "xx";
+    string ans = "";
+}
+
+<h2>Index</h2>
+
+<div class="row"><div>
+    @foreach (var s in Model.OrderBy(o=>o.StartAMPM).ThenBy(o=>o.StartHour).ThenBy(o=>o.Room))
+    {
+        if (hour != String.Concat(s.StartHour, s.StartAMPM))
+        {
+            hour = String.Concat(s.StartHour, s.StartAMPM);
+            ans += @"</div></div><div class='row panel-default'>
+                <div class='panel-heading'><strong>" + hour + "</strong></div><div class='panel-body'>";
+        }
+        ans += @"<div class='" + s.CSSClass +"'><div class='session'>" + s.Title + "<hr />" + s.SpeakerDescription + "</div></div>";
+    }
+    @Html.Raw(ans)
+
+</div>

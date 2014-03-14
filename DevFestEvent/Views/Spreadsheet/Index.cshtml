@@ -1,0 +1,21 @@
+﻿@model Google.GData.Spreadsheets.SpreadsheetFeed
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table>
+@foreach (var item in Model.Entries) {
+    <tr>
+        <td>
+            @item.Title.Text
+        </td>
+        <td>
+            @item.Id.AbsoluteUri
+        </td>
+    </tr>
+}
+
+</table>

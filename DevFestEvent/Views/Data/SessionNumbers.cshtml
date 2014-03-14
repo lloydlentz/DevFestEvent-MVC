@@ -1,0 +1,23 @@
+﻿@model IEnumerable<DevFestEvent.ViewModels.DataSessionNumbersView>
+
+@{
+    ViewBag.Title = "SessionNumbers";
+}
+
+<h2>SessionNumbers</h2>
+
+<table class="table">
+@foreach (var item in Model.OrderByDescending(o=>o.Count)) {
+    <tr>
+        <td>
+            @item.Count
+        </td>
+        <td>
+            @item.Title
+        </td>
+        <td>@item.Time</td>
+        <td>@item.Room</td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,21 @@
+﻿@model ICollection<DevFestEvent.Models.Session>
+@{
+    string hour = "xx";
+    string ans = "";
+}
+
+@foreach (var s in Model.OrderBy(o => o.StartAMPM).ThenBy(o => o.StartHour).ThenBy(o => o.StartMinute).ThenBy(o => o.Sort))
+{
+    if (hour != s.FormattedStartTime)
+    {
+        hour = s.FormattedStartTime;
+        ans += @"</div></div><div class='row panel-default'>
+                <div class='panel-heading'><strong>" + hour + "</strong></div><div class='panel-body'>";
+    }
+    ans += @"<div id='session" + s.IID + "'  class='" + s.CSSClass + "' onClick='ShowLessonPopup(" + s.IID + ")'><div class='session'>" + s.Title + "<hr />" +
+        @"<div class='roomline'><span class='roomspan'>" + s.Room + "</span></div>" +
+        s.SpeakerDescription + "</div></div>";
+}
+@Html.Raw(ans)
+
+

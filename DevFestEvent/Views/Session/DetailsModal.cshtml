@@ -1,0 +1,74 @@
+﻿@model DevFestEvent.ViewModels.SessionModalView
+@{
+    Layout = null;
+}
+
+<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close cancel" data-dismiss="modal" aria-hidden="true" onclick="$('#popupEventForm').hide();">&times;</button>
+                <div style="float: right; padding-right: 20px;">
+                    @{
+                        var url = "http://m.devfest.mn/Session/Details/";
+                        if (!String.IsNullOrEmpty(Model.Session.CustomURL))
+                        { 
+                            url += Model.Session.CustomURL;
+                        } else { 
+                            url +=Model.Session.IID;
+                        }
+                        var eurl = Url.Encode(url);
+                        var gurl = "https://plus.google.com/share?url=" + eurl;
+                        var turl = "https://twitter.com/share?url=" + eurl +
+                            "&text=" + Url.Encode(@Model.Session.Title) + 
+                            "&hashtags=DevFestMN";
+                    }
+                    <a href="@gurl"><img src="https://www.gstatic.com/images/icons/gplus-16.png" onclick="javascript:window.open('@gurl' ,
+     '' , 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600' );return false;" /></a>
+                    <g:plus action="share" annotation="vertical-bubble"></g:plus>
+                    <a href="@turl" onclick="javascript:window.open('@turl' ,
+                       '' , 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600' );return false;"><img src="http://content.screencast.com/users/cledwyn/folders/Snagit/media/879f3341-2de2-4e9e-9756-177946815fd8/02.04.2014-13.29.png" style="width: 20px"></a>
+                    <a href="@url"><img src="@Url.Content("~/img/link.png")" style="width: 20px" /></a>
+                </div>
+                <h4 class="modal-title">@Model.Session.FormattedStartTime - @Model.Session.Room</h4>
+            </div>
+            <div class="modal-body">
+
+                <h3>@Html.Raw(Model.Session.Title)</h3>
+                <em>@Html.Raw(Model.Session.SpeakerDescription)</em>
+
+                <div class="eventpopover" id="@String.Concat("lessondetails", Model.Session.ID)">
+                    @Html.Raw(Model.Session.Description)
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                @if (Model.AppUser != null)
+                {
+                    if (Model.AppUser.Admin)
+                    {
+                        <a href="@Url.Action("Edit","Session",new{id=Model.Session.IID})" type="button" id="btnPopupEdit"  class="btn btn-default cancel" >Edit</a>
+                    }
+                }
+
+                <button type="button" id="btnPopupCancel" data-dismiss="modal" class="btn btn-default cancel" onclick="$('#popupEventForm').hide();">Close</button>
+                @if (User.Identity.IsAuthenticated) { 
+                if (Model.alreadyAdded) { 
+                <button type="button" id="btnPopupSave" data-dismiss="modal" class="btn btn-warning" onclick="delSession(@Model.Session.IID);">Remove from My Schedule</button>
+                }
+                else
+                {
+                    <button type="button" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" onclick="addSession(@Model.Session.IID);">Add to My Schedule</button>
+                }
+                }
+                else
+                {
+                     using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "" }))
+                        {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("provider","Google")
+                        <button type="submit" class="btn btn-info"  name="submit" value="Log in with Google" title="Log in using your google account">Log in with your Google Account and you can save your own schedule.</button>
+                       }
+                }
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->

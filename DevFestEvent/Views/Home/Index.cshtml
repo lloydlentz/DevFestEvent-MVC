@@ -1,0 +1,24 @@
+﻿@model ICollection<DevFestEvent.Models.Session>
+
+@{
+    ViewBag.Title = "Schedule";
+    string hour = "xx";
+    string ans = "";
+}
+
+<h2>Google DevFest Twin Cities </h2>
+Feb 8th, 2014
+
+<div class="row">
+    <div>
+        @Html.Partial("_SessionSchedule",Model)
+    </div>
+
+
+    <div id="popupEventForm" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
