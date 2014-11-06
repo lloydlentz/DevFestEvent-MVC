@@ -1,6 +1,8 @@
 #DevFestEvent-MVC
 ================
 
+Demo: http://m.devfest.mn
+
 ##To install
 - You need to create a local web.config file, copy the web.DEFAULT.config
 - in the web.config file, you need to add the parameters of your google spreadsheet, username, and password for access
